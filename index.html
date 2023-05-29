@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Birdcage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #DAA520; /* Gold color inspired by the movie poster */
+            color: #FFFFFF; /* Change text color to white for better visibility */
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+        h1, p {
+            text-align: center;
+        }
+        .gif {
+            width: 80%;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+        }
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Birdcage</h1>
+        <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Birdcage_imp.jpg" alt="The Birdcage Movie Poster">
+        <p>A gay cabaret owner and his drag queen companion agree to put up a false straight front so that their son can introduce them to his fiancée's right-wing moralistic parents.</p>
+        <button id="myBtn">Show Gif</button>
+        <div class="gif">
+            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen 1">
+        </div>
+        <div class="gif">
+            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen 2">
+        </div>
+        <p>🎥🌈 "The Birdcage" is a vibrant and hilarious exploration of family, identity, and acceptance. It is a film that uses comedy to challenge societal norms and prejudices. Robin Williams and Nathan Lane deliver outstanding performances, capturing the spirit of their characters' flamboyant lifestyle while also portraying the struggle of maintaining a facade in the face of judgement. The contrast between the couple's colorful and joyful world and the stiff, conservative world of their son's fiancée's parents provides a compelling commentary on the diversity of human experiences and the importance of being true to oneself. 🎭💃🕺👏```html
+    👏👏</p>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen in Modal">
+            <p>"You do an eclectic celebration of the dance! You do Fosse, Fosse, Fosse! You do Martha Graham, Martha Graham, Martha Graham! Or Twyla, Twyla, Twyla! Or Michael Kidde, Michael Kidde, Michael Kidde, Michael Kidde! Or Madonna, Madonna, Madonna!... but you keep it all inside."</p>
+        </div>
+    </div>
+</body>
+<script>
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+</html>
