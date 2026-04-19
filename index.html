@@ -1,108 +1,551 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Birdcage</title>
+    <title>The Birdcage — A Classic Comedy</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #DAA520; /* Gold color inspired by the movie poster */
-            color: #FFFFFF; /* Change text color to white for better visibility */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #DAA520;
+            --gold-light: #F5C842;
+            --gold-dark: #A07810;
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --white: #ffffff;
+            --off-white: #f9f5ef;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(218,165,32,0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--gold-light); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: auto;
-        }
-        h1, p {
             text-align: center;
-        }
-        .gif {
-            width: 80%;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .modal-content {
+            padding: 6rem 1.5rem 3rem;
+            background:
+                linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.85) 70%, var(--black) 100%),
+                url('https://upload.wikimedia.org/wikipedia/en/7/76/Birdcage_imp.jpg') center/cover no-repeat;
             position: relative;
-            margin: 15% auto;
-            padding: 20px;
-            width: 80%;
         }
-        .close {
-            color: white;
-            float: right;
-            font-size: 28px;
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            letter-spacing: 0.06em;
+            line-height: 1.05;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-style: italic;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.2rem;
+            border-radius: 3rem;
+            font-size: 0.95rem;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: var(--black);
             font-weight: bold;
         }
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.4);
+        }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+        .scroll-hint svg { width: 20px; opacity: 0.5; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* SECTIONS SHARED */
+        section { padding: 5rem 1.5rem; }
+
+        .section-label {
+            display: block;
+            text-align: center;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.75rem);
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.55);
+            max-width: 560px;
+            margin: 0 auto 3.5rem;
+            font-style: italic;
+        }
+
+        /* SYNOPSIS */
+        .synopsis {
+            background: var(--dark);
+            border-top: 1px solid rgba(218,165,32,0.15);
+            border-bottom: 1px solid rgba(218,165,32,0.15);
+        }
+
+        .synopsis-inner {
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .synopsis-text {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.85;
+            font-style: italic;
+        }
+
+        .synopsis-text strong { color: var(--gold-light); font-style: normal; }
+
+        /* HIGHLIGHTS GRID */
+        .highlights { background: var(--black); }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--dark);
+            border: 1px solid rgba(218,165,32,0.12);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+        .card:hover {
+            border-color: rgba(218,165,32,0.5);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+        }
+
+        /* QUOTE */
+        .quote-section {
+            background: linear-gradient(135deg, #1c1300 0%, #2a1d00 100%);
+            border-top: 1px solid rgba(218,165,32,0.2);
+            border-bottom: 1px solid rgba(218,165,32,0.2);
+        }
+
+        blockquote {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        blockquote p {
+            font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        blockquote cite {
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* POSTER */
+        .poster-section { background: var(--black); }
+
+        .poster-wrap {
+            max-width: 360px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(218,165,32,0.2);
+            border: 1px solid rgba(218,165,32,0.25);
+        }
+
+        .poster-wrap img { width: 100%; display: block; }
+
+        /* CTA */
+        .cta-section {
+            background: var(--dark);
+            text-align: center;
+            border-top: 1px solid rgba(218,165,32,0.15);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.75rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer span { color: var(--gold); }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--dark);
+            border: 1px solid rgba(218,165,32,0.3);
+            border-radius: 1.25rem;
+            max-width: 560px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1.25rem;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.75rem;
             cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--gold); }
+
+        .modal-box blockquote p {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            nav { padding: 1rem 1.25rem; }
+            .nav-links { gap: 1.25rem; }
+            section { padding: 3.5rem 1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">The Birdcage</div>
+        <ul class="nav-links">
+            <li><a href="#synopsis">Story</a></li>
+            <li><a href="#highlights">Highlights</a></li>
+            <li><a href="#quote">Quotes</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <span class="hero-badge">1996 &mdash; Mike Nichols</span>
         <h1>The Birdcage</h1>
-        <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Birdcage_imp.jpg" alt="The Birdcage Movie Poster">
-        <p>A gay cabaret owner and his drag queen companion agree to put up a false straight front so that their son can introduce them to his fiancée's right-wing moralistic parents.</p>
-        <button id="myBtn">Show Gif</button>
-        <div class="gif">
-            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen 1">
+        <p class="hero-tagline">
+            A comedy about family, identity, and the magnificent chaos of being exactly who you are.
+        </p>
+        <div class="hero-actions">
+            <a href="#synopsis" class="btn btn-primary">Discover the Story</a>
+            <button class="btn btn-outline" id="quoteBtn">Hear a Quote</button>
         </div>
-        <div class="gif">
-            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen 2">
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
         </div>
-        <p>🎥🌈 "The Birdcage" is a vibrant and hilarious exploration of family, identity, and acceptance. It is a film that uses comedy to challenge societal norms and prejudices. Robin Williams and Nathan Lane deliver outstanding performances, capturing the spirit of their characters' flamboyant lifestyle while also portraying the struggle of maintaining a facade in the face of judgement. The contrast between the couple's colorful and joyful world and the stiff, conservative world of their son's fiancée's parents provides a compelling commentary on the diversity of human experiences and the importance of being true to oneself. 🎭💃🕺👏```html
-    👏👏</p>
+    </section>
+
+    <!-- SYNOPSIS -->
+    <section class="synopsis" id="synopsis">
+        <div class="synopsis-inner">
+            <span class="section-label">The Story</span>
+            <h2 class="section-title">Love. Laughter. A Little Deception.</h2>
+            <p class="synopsis-text">
+                <strong>Armand</strong>, a gay cabaret owner in South Beach, and his beloved drag queen partner
+                <strong>Albert</strong> are asked by their son Val to pose as a conventional straight couple &mdash;
+                at least for one dinner. The catch? Val's fiancée's parents are <strong>staunchly conservative</strong>
+                politicians with zero tolerance for anything fabulous. What follows is a glorious collision
+                of worlds, identities, and impeccably timed chaos.
+            </p>
+        </div>
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section class="highlights" id="highlights">
+        <span class="section-label">Why It Endures</span>
+        <h2 class="section-title">Highlights</h2>
+        <p class="section-subtitle">A film that is as warm as it is funny.</p>
+        <div class="highlights-grid">
+            <div class="card">
+                <span class="card-icon">🎭</span>
+                <h3>Iconic Performances</h3>
+                <p>Robin Williams and Nathan Lane deliver career-defining work full of heart, wit, and impeccable timing.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🌈</span>
+                <h3>A Story of Acceptance</h3>
+                <p>Beneath the laughs lies a genuine and moving meditation on what family really means.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🎷</span>
+                <h3>Vibrant World</h3>
+                <p>South Beach glamour, sequins, and showmanship create a setting as unforgettable as its characters.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🏆</span>
+                <h3>Timeless Comedy</h3>
+                <p>Sharp writing and perfect comedic escalation make every rewatch feel as fresh as the first.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- POSTER -->
+    <section class="poster-section">
+        <span class="section-label">The Film</span>
+        <h2 class="section-title">A Classic Reimagined</h2>
+        <p class="section-subtitle">Adapted from the acclaimed French film <em>La Cage aux Folles</em>.</p>
+        <div class="poster-wrap">
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/76/Birdcage_imp.jpg" alt="The Birdcage Movie Poster">
+        </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section" id="quote">
+        <blockquote>
+            <p>
+                "You do an eclectic celebration of the dance! You do Fosse, Fosse, Fosse!
+                You do Martha Graham, Martha Graham, Martha Graham!
+                Or Twyla, Twyla, Twyla! &mdash; but you keep it all inside."
+            </p>
+            <cite>&mdash; Armand Goldman</cite>
+        </blockquote>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Ready to Watch?</h2>
+        <p>Gather the family &mdash; chosen or otherwise &mdash; and press play.</p>
+        <button class="btn btn-primary" id="celebrateBtn">Celebrate the Dance</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>The Birdcage &copy; 1996 United Artists &nbsp;&middot;&nbsp; Fan page made with <span>&#9825;</span></p>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+            <span class="section-label">Quote</span>
+            <blockquote>
+                <p id="modalQuote"></p>
+                <cite id="modalCite"></cite>
+            </blockquote>
+        </div>
     </div>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img src="https://drive.google.com/uc?export=view&id=1d4awMhw-XvvSWS6fCp-7iRiqPXUw6Ghk" alt="Dancing Drag Queen in Modal">
-            <p>"You do an eclectic celebration of the dance! You do Fosse, Fosse, Fosse! You do Martha Graham, Martha Graham, Martha Graham! Or Twyla, Twyla, Twyla! Or Michael Kidde, Michael Kidde, Michael Kidde, Michael Kidde! Or Madonna, Madonna, Madonna!... but you keep it all inside."</p>
-        </div>
-    </div>
-</body>
-<script>
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("myBtn");
-    var span = document.getElementsByClassName("close")[0];
 
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
+    <script>
+        const quotes = [
+            {
+                text: "I'm not a man, I'm not a woman, I'm me — and I'm fabulous.",
+                cite: "— Albert Goldman"
+            },
+            {
+                text: "You do an eclectic celebration of the dance! You do Fosse, Fosse, Fosse! You do Martha Graham, Martha Graham, Martha Graham! — but you keep it all inside.",
+                cite: "— Armand Goldman"
+            },
+            {
+                text: "We are what we are. And that's something to celebrate.",
+                cite: "— Armand Goldman"
+            },
+            {
+                text: "I never thought I'd be grateful that my father was so repressed.",
+                cite: "— Val Goldman"
+            }
+        ];
 
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
+        const overlay   = document.getElementById('modalOverlay');
+        const closeBtn  = document.getElementById('modalClose');
+        const quoteText = document.getElementById('modalQuote');
+        const quoteCite = document.getElementById('modalCite');
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        function openModal(q) {
+            quoteText.textContent = q.text;
+            quoteCite.textContent = q.cite;
+            overlay.classList.add('open');
         }
-    }
-</script>
+
+        function closeModal() { overlay.classList.remove('open'); }
+
+        document.getElementById('quoteBtn').addEventListener('click', () => {
+            openModal(quotes[Math.floor(Math.random() * quotes.length)]);
+        });
+
+        document.getElementById('celebrateBtn').addEventListener('click', () => {
+            openModal(quotes[0]);
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    </script>
+
+</body>
 </html>
