@@ -211,6 +211,26 @@
 
         .synopsis-text strong { color: var(--gold-light); font-style: normal; }
 
+        /* TRAILER */
+        .trailer-section { background: var(--dark); border-top: 1px solid rgba(218,165,32,0.15); border-bottom: 1px solid rgba(218,165,32,0.15); }
+
+        .trailer-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(218,165,32,0.15);
+            border: 1px solid rgba(218,165,32,0.2);
+            aspect-ratio: 16 / 9;
+        }
+
+        .trailer-wrap iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border: none;
+        }
+
         /* HIGHLIGHTS GRID */
         .highlights { background: var(--black); }
 
@@ -387,6 +407,7 @@
         <div class="nav-logo">The Birdcage</div>
         <ul class="nav-links">
             <li><a href="#synopsis">Story</a></li>
+            <li><a href="#trailer">Trailer</a></li>
             <li><a href="#highlights">Highlights</a></li>
             <li><a href="#quote">Quotes</a></li>
         </ul>
@@ -423,6 +444,21 @@
                 politicians with zero tolerance for anything fabulous. What follows is a glorious collision
                 of worlds, identities, and impeccably timed chaos.
             </p>
+        </div>
+    </section>
+
+    <!-- TRAILER -->
+    <section class="trailer-section" id="trailer">
+        <span class="section-label">Watch</span>
+        <h2 class="section-title">Official Trailer</h2>
+        <p class="section-subtitle">See what all the fuss is about.</p>
+        <div class="trailer-wrap">
+            <iframe
+                src="https://www.youtube.com/embed/83kTQ6chG4o"
+                title="The Birdcage (1996) Official Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
         </div>
     </section>
 
